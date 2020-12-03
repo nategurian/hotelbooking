@@ -22,5 +22,10 @@ namespace HotelBooking.Interface
         * Return a list of all the available room numbers for the given date
         */
         IEnumerable<int> getAvailableRooms(DateTime date);
+
+        /**
+        * Add this the newly checked out room back to the list of available rooms 
+        */
+        void AddRoomBackToAvailable(int room);
     }
 }

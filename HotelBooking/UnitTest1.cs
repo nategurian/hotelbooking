@@ -8,18 +8,38 @@ namespace HotelBooking
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-            BookingManager bm = new BookingManager();
-            DateTime today = DateTime.Now;
+        public BookingManager bm = new BookingManager();
+        public DateTime today = DateTime.Now;
 
+        // This unit test shows booking a room and the booking pass
+        [TestMethod]
+        public void CheckRoomByRoomNumberPass()
+        {
             bool isAvailable = bm.IsRoomAvailable(101, today);
-            Console.WriteLine(isAvailable);
+
             if(isAvailable)
             {
                 bm.AddBooking("potter", 101, today);
             }
+            
+            Assert.IsTrue(isAvailable);
+
+        }
+
+        // This unit test will show a fail when trying to book a room that is not available
+        [TestMethod]
+        public void CheckRoomByRoomNumberFail()
+        {
+            bool isAvailable = bm.IsRoomAvailable(101, today);
+            if (isAvailable)
+            {
+                bm.AddBooking("potter", 101, today);
+            }
+
+            // here we are trying to book the room that was just booked above, we assume it will fail
+            bool trySameRoom = bm.IsRoomAvailable(101, today);
+
+            Assert.IsFalse(trySameRoom);
 
         }
     }
@@ -55,10 +75,22 @@ namespace HotelBooking
             }
         }
 
+        // We would use this method to retrieve the list of available rooms so the clerk would know right away if the rooms were available
         public IEnumerable<int> getAvailableRooms(DateTime date)
         {
             // Since we already have a list of the rooms available, we can just return that :)
             return availableRooms;
+        }
+
+        // This method would be used to be able to add a room back to the list of available rooms.
+        public void AddRoomBackToAvailable(int room)
+        {
+            int index = availableRooms.IndexOf(room);
+
+            if(index == -1)
+            {
+                availableRooms.Add(room);
+            }
         }
     }
 }
