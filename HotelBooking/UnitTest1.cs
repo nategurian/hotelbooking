@@ -44,7 +44,7 @@ namespace HotelBooking
         public void CheckRoomByRoomNumberFail()
         {
             bool isAvailable = bm.IsRoomAvailable(101, date);
-            
+            Assert.IsFalse(isAvailable);
         }
     }
 }
